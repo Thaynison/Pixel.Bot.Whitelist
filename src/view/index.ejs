@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+</head>
+
+<body>
+    <div class="text">
+        <div class="image">
+            <% config.forEach(config => { %>
+                <img src="<%- config.logo === '0' ? '' : config.logo %>">
+            <% }) %>
+        </div>
+        <p>Seja bem-vindo ao nosso site, autentique seu discord.</p>
+        <a href="/dashboard"><i class="fab fa-discord"></i> Autenticar Discord</a>
+    </div>
+    <% if (mensagem) { %>
+        <div class="notify" style="display: none;"><i class="fas fa-bell"></i> <%= mensagem %></div>
+    <% } %>
+</body>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"
+integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+crossorigin="anonymous"></script>
+<script>
+    $( document ).ready(function() {
+        $('.notify').slideDown(1000)
+    })
+</script>
+</html>

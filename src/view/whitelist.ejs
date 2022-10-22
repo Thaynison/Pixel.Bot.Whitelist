@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/whitelist.css">
+    <title>Whitelist</title>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="left">
+                <h1>Formulário Whitelist</h1>
+                <h2 id="horario"></h2>
+            </div>
+            <div class="right">
+               
+                <div class="icon">
+                    <img src="<%= user.avatar %>" alt="">
+                </div>
+                 <h1><%= user.tag %><span>Usuário</span></h1>
+               
+            </div>
+        </header>
+
+        <main class="main_whitelist">
+            <div class="notify" id="notify"></div>
+
+            <ul id="progressbar">
+                <li class="active" id="step_one"></li>
+                <li id="step_two"></li>
+                <li id="step_three"></li>
+            </ul>
+            <form method="POST" action="/sendform">
+                <div class="allForms">
+                    <h1>Olá, seja bem-vindo!</h1>
+                    <p>Faça sua whitelist com cuidado e prestando atenção em todas as suas respostas, pois ela é necessária para você ter acesso a cidade.</p>
+                    
+                        <div class="one_step">
+                            <% for(let i=0; i < questions.length; ++i) { %>
+                                <% if (i < 4) { %>
+                                    <% if (questions[i].type == "essay") { %>
+                                        <% if (i === 2) { %>
+                                            <h2><%- questions[i].question %></h2>
+                                            <input type="email" class="resposta question_input one_step_question" placeholder="Resposta" data_question="<%= i %>" id="resposta_<%= i %>" name="resposta_<%= i %>" required>
+                                        <% } else{ %>
+                                            <h2><%- questions[i].question %></h2>
+                                            <input type="text" class="resposta question_input one_step_question" placeholder="Resposta" data_question="<%= i %>" id="resposta_<%= i %>" name="resposta_<%= i %>" required>
+                                        <% } %>
+                                    
+                                    <% } %>
+                                    
+                                
+                                <% } %>
+                            <% } %>
+                        </div>
+                        <div class="two_step" style="display: none;">
+                            <% if (questions.length > 4) { %>
+                                <% for(let i=0; i < questions.length; ++i) { %>
+                                    <% if (i > 3) { %>
+                                        <% if (questions[i].type == "essay") { %>
+                                            <h2><%- questions[i].question %></h2>
+                                            <input type="text" class="resposta question_input two_step_question" placeholder="Resposta" data_question="<%= i %>" id="resposta_<%= i %>" name="resposta_<%= i %>" required>
+                                        <% } %>
+                                    <% } %>
+
+                                <% } %>
+                            <% } else {%>
+                                <h2 class="bottom">Não há questões por aqui, você pode pular de etapa.</h2>
+                            <% } %> 
+                        </div>
+                        <div class="three_step" style="display: none;">
+                            <% if (questions.length > 4) { %>
+                                <% for(let i=0; i < questions.length; ++i) { %>
+                                    <% if (i > 3) { %>
+    
+                                        <% if (questions[i].type == "alternative") { %>
+                                            <h2 class="bottom"><%- questions[i].question %></h2>
+                                            <div class="options">
+                                                <% for(let j=0; j < JSON.parse(questions[i].answers).length; ++j) { %>   
+                                                    <div class="option">
+                                                        <input class="checkbox question_input three_step_question" data_question="<%= i %>" type="radio" name="resposta_<%= i %>" value="<%= j %>" required>
+                                                        <label for=""><%- JSON.parse(questions[i].answers)[j] %></label>
+                                                    </div>
+                                                <% } %>
+                                            </div>
+                                        <% } %>
+                                    <% } %>
+                                    
+                                <% } %>
+                            <% } else {%>
+                                <h2 class="bottom">Não há questões por aqui, apenas envie seu formulário.</h2>
+                            <% } %>
+                        </div>
+                        
+                 </div>
+           
+            <div class="button">
+                <button onclick="backStep()" id="backStep" class="backStep">Voltar</button>
+                <div onclick="nextStep()" id="nextStep" class="nextStep">Próxima Etapa</div>
+                <button style="display: none" type="submit" id="nextStep" class="sendStep">Enviar Whitelist</button>
+            </div>
+        </form>
+        </main>
+        
+    </div>
+    <script>
+    </script>
+</body>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"
+integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+crossorigin="anonymous"></script>
+    <script src="js/main.js"></script>
+    <script src="js/whitelist.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      
+
+        setInterval(attTime, 30000);
+
+        const formatarAno  = (data) => {
+            const ano = data.getFullYear();
+            const mes = (`00${data.getMonth() + 1}`).slice(-2);
+            const dia = (`00${data.getDate()}`).slice(-2);
+            const horas = (`00${data.getHours()}`).slice(-2);
+            const minutos = (`00${data.getMinutes()}`).slice(-2);
+
+            return `${dia}/${mes}/${ano} | ${horas}:${minutos}`;
+        };
+
+        document.getElementById("horario").innerHTML = formatarAno(new Date());
+
+        function attTime() {
+            document.getElementById("horario").innerHTML = formatarAno(new Date());
+        }
+        AOS.init();
+    </script>
+</html>

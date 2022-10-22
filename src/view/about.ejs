@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/about.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <title>New Control</title>
+</head>
+<body>
+    <nav class="sidebar animate__animated animate__fadeInDown">
+        <div class="items">
+            <div class="text">
+                <span>Dashboard</span>
+            </div>
+    
+            <div class="button-menu">
+                <button onclick="navBar()"><i class="fa fa-bars"></i></button>
+            </div>
+        </div>
+        <div id="navbar" class="item-open animate__animated animate__fadeInDown">
+            <ul>
+                <li><img src="/img/navbar/dashboard.png" alt=""><a href="/dashboard">Dashboard</a></li>
+                <li class="active"><img src="/img/navbar/formsactive.png" alt=""><a href="/about/1">Whitelist</a></li>
+                <li><a href="/config"><img src="/img/navbar/config.png" alt="">Configurações</a></li>
+                <li><a href="/auth/logout"><img src="/img/navbar/logout.png" alt="">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <main>
+        <div class="wrapper">
+            <aside>
+                <div class="model">
+                    <div class="text">
+                        <span>Dashboard</span>
+                    </div>
+                    <ul>
+                        <li><img src="/img/navbar/dashboard.png" alt=""><a href="/dashboard">Dashboard</a></li>
+                        <li class="active"><img src="/img/navbar/formsactive.png" alt=""><a href="/about/1">Whitelist</a></li>
+                    </ul>
+                    <div class="bottom">
+                        <a href="/config"><img src="/img/navbar/config.png" alt="/config">Configurações</a>
+                        <a href="/auth/logout"><img src="/img/navbar/logout.png" alt="">Logout</a>
+                    </div>
+                </div>
+            </aside>
+            <section data-aos="zoom-out" id="content" class="content">
+                <header class="animate__animated animate__backInDown">
+                    <div class="left">
+                        <div class="top">
+                            <h1>Dashboard Admin</h1>
+                        </div>
+                        <div class="bottom">
+                            <div class="data">
+                                <h2 id="data"></h2>
+                            </div>
+                            <div class="time">
+                                <h2 id="horas"></h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="icon">
+                            <img src="<%= user.avatar %>" alt="">
+                        </div>
+                        <div>
+                            <h1><%= user.tag %><span>Aprovador</span></h1>
+                        </div>
+                    </div>
+                </header>
+                <div class="notify" id="notify"></div>
+                <div class="box2">
+                    <section class="user-data">
+                        <div class="buttons-div">
+                            <button class="user-aprovar" onclick="aprovarUser('<%- forms.id %>')">Aprovar</button><button class="user-reprovar" onclick="reprovarUser('<%- forms.id %>')">Reprovar</button>    
+                        </div>
+                        <section class="user-discord">
+                           
+                            <div style="float: right;">
+                                <img class="icon-right" src="/img/settings.png">
+                            </div> 
+                            <img class="icon-user" src='<%- website.bot.users.cache.get(memberWhitelist.id).avatar ? `https://cdn.discordapp.com/avatars/${memberWhitelist.id}/${website.bot.users.cache.get(memberWhitelist.id).avatar}${website.bot.users.cache.get(memberWhitelist.id).avatar.startsWith("a_") ? ".gif" : ".webp"}?size=128` : 'https://cdn.discordapp.com/embed/avatars/5.png' %>' alt="">
+                            <p class="nick"><%- website.bot.users.cache.get(memberWhitelist.id).username %>#<%-website.bot.users.cache.get(memberWhitelist.id).discriminator %></p>
+                            <p class="discordid"><%- memberWhitelist.id %></p>
+                            <div class="list">
+                                <div class="icon">
+                                    <img src="/img/circlepurple.png" alt="">
+                                </div>
+                                <h1>Questões Totais: <span><%- questionsAlternatives.length %></span></h1>
+                            </div>
+                            <div class="list">
+                                <div class="icon">
+                                    <img src="/img/circlepink.png" alt="">
+                                </div>
+                                <h1>Questões Corretas: <span><%- forms.questoesCorretas %></span></h1>
+                            </div>
+                            <div class="list">
+                                <div class="icon">
+                                    <img src="https://media.discordapp.net/attachments/734178597929091163/933447940016594944/new-moon.png" alt="">
+                                </div>
+                                <h1>Questões Incorretas: <span><%- Number(questionsAlternatives.length)-forms.questoesCorretas %></span></h1>
+                            </div>
+                      
+                        </section>
+                        <section class="user-forms">
+                            <div style="float: right;">
+                                <img class="icon-right" src="/img/settings.png">
+                            </div>
+                            <h1 class="h1-wl">Whitelists</h1>
+                            <span class="span-wl">Informação das whitelists</span>
+                            <div class="info-wl">
+                                <span>Totais</span><span style="float: right;"><%- countWhitelists.length || 0 %></span>
+                                <div class="barra bar-orange"><div class="barradentro orange-dentro"></div></div>
+                            </div>
+                            <div class="info-wl">
+                                <span>Pendentes</span><span style="float: right;"><%- countWhitelists.filter(m => m.status === "Pendente").length || 0 %></span>
+                                <div class="barra bar-purple"><div class="barradentro purple-dentro"></div></div>
+                            </div>
+                            <div class="info-wl">
+                                <span>Aprovadas</span><span style="float: right;"><%- countWhitelists.filter(m => m.status === "Aprovada").length || 0 %></span>
+                                <div class="barra bar-pink"><div class="barradentro pink-dentro"></div></div>
+                            </div>
+                            <div class="info-wl">
+                                <span>Reprovadas</span><span style="float: right;"><%- countWhitelists.filter(m => m.status === "Reprovada").length || 0 %></span>
+                                <div class="barra bar-blue"><div class="barradentro blue-dentro"></div></div>
+                            </div>
+                        </section>
+                    </section>
+                    <section class="main-content">
+                        <div style="float: right;">
+                            <img class="icon-right" src="/img/settings.png">
+                        </div>
+                        <h1 class="h1-wl">Visualização Whitelist #<%- forms.id %></h1><span class="span-wl">Status: <%- forms.status %></span>
+        
+                        <p class="span-wl">Informações do Usuário</p>
+                        
+                        <div class="main-respostas">
+                            <% for(let i=0; i < questions.length; ++i) { %>
+                                <% if (i < 4) { %>
+                                    <div class="all-resposta">
+                                        <p><%- questions[i].question %></p>                                  
+                                        <div class="resposta"><%- respostas[i] %></div>
+                                    </div>
+                                <% } %>
+                            <% } %>
+                        </div>
+                       
+                        <p class="span-wl">Questões Dissertativas</p>
+                     
+                        <div class="main-respostas">
+                            <% for(let i=0; i < questions.length; ++i) { %>                             
+                                <% if (i > 3 && questions[i].type == "essay") { %>
+                                <div class="all-resposta2 ml">
+                                    <p><%- questions[i].question %></p>
+                                    <div class="resposta">
+                                        <%- respostas[i] %>
+                                    </div>
+                                </div>
+                                <% } %>
+                            <% } %>
+                        </div>
+                        <p class="span-wl">Questões Alternativas</p>
+                        <% for(let i=0; i < questions.length; ++i) { %>                             
+                            <% if (i > 3 && questions[i].type == "alternative") { %>
+
+                                <p class="bottom"><%- questions[i].question %></p>
+                                <div class="options">
+                                    <% for(let j=0; j < JSON.parse(questions[i].answers).length; ++j){ %>   
+                                        <div class="option">
+                                            <% if (j == respostas[i]) {%>
+                                                <input class="checkbox" type="checkbox" checked disabled>
+                                                <label for=""><%- JSON.parse(questions[i].answers)[j]  %></label>
+                                            <% } else {%>
+                                                <input class="checkbox" type="checkbox" disabled>
+                                                <label for=""><%- JSON.parse(questions[i].answers)[j] %></label>
+
+                                            <% } %>
+                                        </div>
+                                    <% } %>
+                                </div>
+
+                            <% } %>
+                        <% } %>
+                    </section>
+                </div>
+            </section>
+        </div>
+    </main>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+    integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+    crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+    integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+    crossorigin="anonymous"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/about.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        setInterval(attTime, 30000);
+
+        const formatarData  = (data) => {
+            const ano = data.getFullYear();
+            const mes = (`00${data.getMonth() + 1}`).slice(-2);
+            const dia = (`00${data.getDate()}`).slice(-2);
+
+            return `${dia}/${mes}/${ano} |`;
+        };
+        const formatarHorario  = (data) => {
+            const horas = (`00${data.getHours()}`).slice(-2);
+            const minutos = (`00${data.getMinutes()}`).slice(-2);
+            return `${horas}:${minutos}`;
+        }
+
+        document.getElementById("data").innerHTML = formatarData(new Date());
+        document.getElementById("horas").innerHTML = formatarHorario(new Date());
+
+        function attTime() {
+            document.getElementById("data").innerHTML = formatarData(new Date());
+            document.getElementById("horas").innerHTML = formatarHorario(new Date());
+        }
+        AOS.init();
+    </script>
+</body>
+</html>

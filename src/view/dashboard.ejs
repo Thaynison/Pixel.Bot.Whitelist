@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <title>New Control</title>
+</head>
+<body>
+    <nav class="sidebar animate__animated animate__fadeInDown">
+        <div class="items">
+            <div class="text">
+                <span>Dashboard</span>
+            </div>
+    
+            <div class="button-menu">
+                <button onclick="navBar()"><i class="fa fa-bars"></i></button>
+            </div>
+        </div>
+        <div id="navbar" class="item-open animate__animated animate__fadeInDown">
+            <ul>
+                <li class="active"><img src="img/navbar/dashboardactive.png" alt="/dashboard"><a>Dashboard</a></li>
+                <li><img src="img/navbar/forms.png" alt=""><a href="/about/1">Whitelist</a></li>
+                <li><a href="/config" class="active"><img src="img/navbar/config.png" alt="">Configurações</a></li>
+                <li><a href="/auth/logout"><img src="img/navbar/logout.png" alt="">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <main>
+        <div class="wrapper">
+            <aside>
+                <div class="model">
+                    <div class="text">
+                        <span>Dashboard</span>
+                    </div>
+            
+                    <ul>
+                        <li class="active" > <img src="img/navbar/dashboardactive.png" alt=""><a href="/dashboard">Dashboard</a></li>
+                        <li><img src="img/navbar/forms.png" alt=""><a href="/about/1">Whitelist</a></li>
+                    </ul>
+                    <div class="bottom">
+                        <a href="/config"><img src="img/navbar/config.png" alt="">Configurações</a>
+                        <a href="/auth/logout"><img src="img/navbar/logout.png" alt="">Logout</a>
+                    </div>
+                </div>
+            </aside>
+            <section data-aos="zoom-out" id="content" class="content">
+                <header>
+                    <div class="left">
+                        <div class="top">
+                            <h1>Dashboard Admin</h1>
+                        </div>
+                        <div class="bottom">
+                            <div>
+                                <h2 id="data"></h2>
+                            </div>
+                            <div>
+                                <h2 id="horas"></h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="input">
+                            <img src="img/search.png" alt="">
+                            <input type="text" placeholder="Search..." class="pesquisarWhitelist">
+                        </div>
+                        <div class="account">
+                            <div class="icon">
+                                <img src="<%= user.avatar %>" alt="">
+                            </div>
+                            <h1><%= user.tag %><span>Aprovador</span></h1>
+                        </div>
+                    </div>
+                </header>
+                <section class="details">
+                    <ul class="grid">
+                        <li>
+                            <div class="top orange">
+                                <div class="icon ">
+                                    <img src="img/iconorange.png" alt="">
+                                </div>
+                                <div class="text-infos">
+                                    <div>
+                                        <p>Whitelist's Total</p>
+                                    </div>
+                                    <div>
+                                        <h1><%- countWhitelists.length || 0 %></h1>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </li>
+                        <li>
+                            <div class="top purple">
+                                <div class="icon ">
+                                    <img src="img/iconpurple.png" alt="">
+                                </div>
+                                <div>
+                                    <p>Whitelist's Pendentes</p>
+                                    <h1><%- countWhitelists.filter(m => m.status === "Pendente").length || 0 %></h1>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="top blue">
+                                <div class="icon ">
+                                    <img src="img/iconblue.png" alt="">
+                                </div>
+                                <div>
+                                    <p>Whitelist's Aprovadas</p>
+                                    <h1><%- countWhitelists.filter(m => m.status === "Aprovada").length || 0 %></h1>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="top red">
+                                <div class="icon ">
+                                    <img src="img/iconpink.png" alt="">
+                                </div>  
+                                <div>
+                                    <p>Whitelist's Reprovadas</p>
+                                    <h1><%- countWhitelists.filter(m => m.status === "Reprovada").length || 0 %></h1>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+                <section id="options-layout">
+                <div class="box2">
+                    <section class="banner">
+                        <% config.forEach(config => { %>
+                            <img src="<%- config.banner === '0' ? 'img/banner.png' : config.banner %>">
+                        <% }) %>
+                    </section>
+                    <section class="server">
+                        <h1 class="h1-wl">Servidor</h1>
+                        <span>Informação dos Servidor</span>
+                        
+                        <div style="float: right;">
+                            <img class="icon-right" src="img/settings.png">
+                        </div>
+                        <div class="list">
+                            <div class="icon">
+                                <img src="img/circlepurple.png" alt="">
+                            </div>
+                            <h1><%- jogadoresOnline == -1 ? 'Status' : 'Jogadores Online' %><span><%- jogadoresOnline == -1 ? 'Servidor Offline' : jogadoresOnline %></span></h1>
+                        </div>
+                        <% if (jogadoresOnline >= 0 ) { %>
+                            <div class="list">
+                                <div class="icon">
+                                    <img src="img/circlepink.png" alt="">
+                                </div>
+                                <h1>Máximo Jogadores<span>1024</span></h1>
+                            </div>
+                        <% } %>
+                    </section>
+                </div>
+                <div class="box">
+                    <section class="whitelits">
+                        <h1 class="h1-wl">Whitelists</h1>
+                        <span>Lista de whitelists em aberto</span>
+                        <div style="float: right;">
+                            <img class="icon-right" src="img/settings.png">
+                        </div>
+                        <table id="customers" class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Status</th>
+                                    <th>Data</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                <% for(let i=0; i < forms.length; ++i) { %>
+                                <tr>
+                                    <td class="d-flex"> 
+                                        <div class="icon">
+                                            
+                                            <img src='<%- website.bot.users.cache.get(forms[i].discordid).avatar ? `https://cdn.discordapp.com/avatars/${forms[i].discordid}/${website.bot.users.cache.get(forms[i].discordid).avatar}${website.bot.users.cache.get(forms[i].discordid).avatar.startsWith("a_") ? ".gif" : ".webp"}?size=128` : 'https://cdn.discordapp.com/embed/avatars/5.png' %>' alt="">
+                                        </div>
+                                        <h1 class=""><%- website.bot.users.cache.get(forms[i].discordid).username %>#<%-website.bot.users.cache.get(forms[i].discordid).discriminator %></h1>
+                                    </td>                                   
+                                    <td><%- forms[i].status %></td>
+                                    <td><%- forms[i].date %></td>
+                                    <td><button class="ler" onclick="lerWhitelist('<%- forms[i].id %>')">Ler </button></td>
+                                </tr>
+                                <% } %>
+                            </tbody>
+                        </table> 
+                        
+                        
+                    </section>
+                        
+                    <section class="users">
+                        <h1 class="h1-wl">Membros</h1>
+                        <span>Lista de membros da equipe</span>
+                        <div style="float: right;">
+                            <img class="icon-right" src="img/settings.png">
+                        </div>
+                        <div class="all-members">
+                            <% for(let i=0; i < aprovadoresRole.length; ++i) { %>
+                                <div class="list-member">
+                                    <div class="icon-user">
+                                        <div class="icon">
+                                            <img src='<%- website.bot.users.cache.get(aprovadoresRole[i]).avatar ? `https://cdn.discordapp.com/avatars/${aprovadoresRole[i]}/${website.bot.users.cache.get(aprovadoresRole[i]).avatar}${website.bot.users.cache.get(aprovadoresRole[i]).avatar.startsWith("a_") ? ".gif" : ".webp"}?size=128` : 'https://cdn.discordapp.com/embed/avatars/5.png' %>' alt="">
+                                        </div>
+                                    </div>
+                                
+                                    <h1><%- website.bot.users.cache.get(aprovadoresRole[i]).username %>#<%-website.bot.users.cache.get(aprovadoresRole[i]).discriminator %><span>Aprovador</span></h1>
+                                </div>
+                            <% } %>
+
+                            <% for(let i=0; i < ownerRole.length; ++i) { %>
+                                <div class="list-member">
+                                    <div class="icon-user">
+                                        <div class="icon">
+                                            <img src='<%- website.bot.users.cache.get(ownerRole[i]).avatar ? `https://cdn.discordapp.com/avatars/${ownerRole[i]}/${website.bot.users.cache.get(ownerRole[i]).avatar}${website.bot.users.cache.get(ownerRole[i]).avatar.startsWith("a_") ? ".gif" : ".webp"}?size=128` : 'https://cdn.discordapp.com/embed/avatars/5.png' %>' alt="">
+                                        </div>
+                                    </div>
+                                    <h1><%- website.bot.users.cache.get(ownerRole[i]).username %>#<%-website.bot.users.cache.get(ownerRole[i]).discriminator %><span>Owner</span></h1>
+                                </div>
+                            <% } %>
+                        </div>
+                       
+                    </section>      
+               </div>
+               </section>
+            </section>
+        </div>
+    </main>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+    integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+    crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+    integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+    crossorigin="anonymous"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/main.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        setInterval(attTime, 30000);
+
+        const formatarData  = (data) => {
+            const ano = data.getFullYear();
+            const mes = (`00${data.getMonth() + 1}`).slice(-2);
+            const dia = (`00${data.getDate()}`).slice(-2);
+
+            return `${dia}/${mes}/${ano} |`;
+        };
+        const formatarHorario  = (data) => {
+            const horas = (`00${data.getHours()}`).slice(-2);
+            const minutos = (`00${data.getMinutes()}`).slice(-2);
+            return `${horas}:${minutos}`;
+        }
+
+        document.getElementById("data").innerHTML = formatarData(new Date());
+        document.getElementById("horas").innerHTML = formatarHorario(new Date());
+
+        function attTime() {
+            
+
+            document.getElementById("data").innerHTML = formatarData(new Date());
+            document.getElementById("horas").innerHTML = formatarHorario(new Date());
+        }
+        AOS.init();
+    </script>
+</body>
+</html>

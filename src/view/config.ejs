@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/config.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <title>New Config</title>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+    integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+    crossorigin="anonymous" defer></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+    integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+    crossorigin="anonymous" defer></script>
+</head>
+<body>
+    <div class="modal-form-inactive">
+        <div class="modal-bg">
+            <div class="modal-box">
+                <div>
+                    <div class="container-top-modal">
+                        <div class="top-items" style="margin-bottom: 2rem;">
+                            <div class="textQuestion">
+                                <span class="numberquestion" id="idQuestionEdit">1.</span>
+                                <input id="textQuestionEdit" type="text" class="question dsaxdsad" placeholder="Digite o texto aqui..." required></span>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="switch">
+                                <input type="checkbox" id="togBtn2" onclick="typeQuestion(this)">
+
+                                <div class="slider round">
+                                    <span class="on">Alternativa</span>
+                                    <span class="off">Dissertativa</span>
+                                </div>
+                            </label>
+                        </div>
+                        <div id="questionsAlts"></div>
+                       
+                    </div>
+                    <div>
+                        <div style="margin-left: 1em;">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="button-add">
+                        <button id="buttonAddQuestion" onclick="adicionarForm()"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="button-modal">
+                        <button class="cancelar-modal" onclick="closeModal()">Cancelar</button>
+                        <button class="create-modal" onclick="createQuestion()">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav class="sidebar animate__animated animate__fadeInDown">
+        <div class="items">
+            <div class="text">
+                <span>Dashboard</span>
+            </div>
+    
+            <div class="button-menu">
+                <button onclick="navBar()"><i class="fa fa-bars"></i></button>
+            </div>
+        </div>
+        <div id="navbar" class="item-open animate__animated animate__fadeInDown">
+            <ul>
+                <li><img src="img/navbar/dashboard.png" ><a href="/dashboard">Dashboard</a></li>
+                <li><img src="img/navbar/forms.png"><a href="/control">Whitelist</a></li>
+                <li class="active"><a href="/config"><img src="img/navbar/configactive.png" alt="">Configurações</a></li>
+                <li><a href="/auth/logout"><img src="img/navbar/logout.png" alt="">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <main>
+        <div class="wrapper">
+            <aside>
+                <div class="model">
+                    <div class="text">
+                        <span>Dashboard</span>
+                    </div>
+            
+                    <ul>
+                        <li><img src="img/navbar/dashboard.png" alt=""><a href="/dashboard">Dashboard</a></li>
+                        <li><img src="img/navbar/forms.png" alt=""><a href="/about/1">Whitelist</a></li>
+                    </ul>
+                    <div class="bottom">
+                        <a href="/config" class="active"><img src="img/navbar/configactive.png" alt="">Configurações</a>
+                        <a href="#"><img src="img/navbar/logout.png" alt="">Logout</a>
+                    </div>
+                </div>
+            </aside>
+            <section data-aos="zoom-out" id="content" class="content">
+                <header class="animate__animated animate__backInDown">
+                    <div class="left">
+                        <div class="top">
+                            <h1>Dashboard Admin</h1>
+                        </div>
+                        <div class="bottom">
+                            <div class="data">
+                                <h2 id="data"></h2>
+                            </div>
+                            <div class="time">
+                                <h2 id="horas"></h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="icon">
+                            <img src="<%= user.avatar %>" alt="">
+                        </div>
+                        <div>
+                            <h1><%= user.tag %><span>Owner</span></h1>
+                        </div>
+                    </div>
+                </header>
+                <div class="notify" id="notify"></div>
+
+                <div class="box2">
+                    <section class="configuracoes animate__animated animate__fadeInUp">
+                        <div style="float: right;">
+                            <img class="icon-right" src="img/settings.png">
+                        </div>
+                        <h1 class="h1-wl">Configurações</h1>
+                        <p class="span-wl2">Relacionadas ao Site e Discord</p>
+    
+                        <p class="span-wl">Geral</p>
+                        <% config.forEach(config => { %>
+                    
+                        <div class="wrapper-questions">
+                            <div id="questions-box-one" class="main-respostas">
+                                <div class="all-resposta">
+                                    <p>Logo</p>
+                                    <input type="text" class="resposta" id="logo" placeholder="Link" value="<%= config.logo %>">
+                                </div>
+                                <div class="all-resposta">
+                                    <p>Banner</p>
+                                    <input type="text" class="resposta" id="banner" placeholder="Link" value="<%= config.banner %>">
+                                </div>
+                                <div class="all-resposta">
+                                    <p>Tentativas máximas whitelist</p>
+                                    <input type="text" class="resposta" id="tentativas" placeholder="1" value="<%= config.tentativas %>">
+                                </div>
+                                <div class="all-resposta">
+                                    <p>Whitelist aberta</p>
+                                    <label class="switch">
+                                        <% if (config.whitelist == "true") { %>
+                                            <input type="checkbox" id="togBtn" checked>
+                                        <% } else{ %>
+                                            <input type="checkbox" id="togBtn">
+                                        <% } %>
+                                        
+                                        <div class="slider round">
+                                         <span class="on">Aberta</span>
+                                         <span class="off">Fechada</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            <p class="span-wl">Discord</p>
+                            <div id="questions-box-two" class="main-respostas">
+                                <div class="header-questions">
+                                    <div class="all-resposta2">
+                                        <p>Canal Logs (ID)</p>
+                                        <input type="text" class="resposta" id="canallogs" placeholder="Insira o ID" value="<%= config.canallogs %>">
+                                    </div>
+                                    <div class="all-resposta2">
+                                        <p>Cargo Aprovado (ID)</p>
+                                        <input type="text" class="resposta" id="cargoaprovado" placeholder="Insira o ID" value="<%= config.cargoaprovado %>">
+                                    </div>
+                                    <div class="all-resposta2">
+                                        <p>Cargo Reprovado (ID)</p>
+                                        <input type="text" class="resposta" id="cargoreprovado" placeholder="Insira o ID" value="<%= config.cargoreprovado %>">
+                                    </div>
+                                </div>
+                                <div class="footer-questions">
+                                    <div class="all-resposta">
+                                        <p>Mensagem Aprovado</p>
+                                        <textarea rows="5" class="text_resposta" id="mensagemaprovado" placeholder="Insira a mensagem..."><%- config.mensagemaprovado %></textarea>
+                                    </div>
+                                    <div class="all-resposta">
+                                        <p>Mensagem Reprovado</p>
+                                        <textarea rows="5" class="text_resposta" id="mensagemreprovado" placeholder="Insira a mensagem..."><%- config.mensagemreprovado %></textarea>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <% }) %>
+                        <div>
+                            <button class="salvarConfig" onclick="salvarConfig()">Salvar</button>
+                        </div>
+                    </section>
+                    <section class="perguntas animate__animated animate__fadeInUp">
+                        <div style="float: right;">
+                            <img class="icon-right" src="img/settings.png">
+                        </div>
+                        <h1 class="h1-wl">Questões</h1>
+                        <p class="span-wl2">Configure as questões de seu formulário</p>
+                        <div class="allInfos">
+
+                            <% for(let i=0; i < questions.length; ++i) { %>
+
+                                <div class="infoQuestion">
+                                    <div class="textQuestion">
+                                        <span class="numberquestion"><%- i + 1%>.</span><span class="question"><%- questions[i].question %></span>
+                                    </div>
+                                    <div class="infoRight">
+                                        <div onclick="editQuestion('<%= i %>','<%= questions[i].id %>','<%= questions[i].question %>','<%= questions[i].type %>','<%= questions[i].answers %>','<%- questions[i].correta %>')">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </div>
+                                        <div onclick="deleteQuestion('<%= questions[i].id %>','<%= user.id %>','<%= questions[i].question %>')">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </div>
+                                    </div>  
+                                </div>
+
+                            <% } %>
+                        </div>
+                        <div class="buttons-questions">
+                            <button class="criarQuestao" onclick="openModal('<%- questions.length+1 %>')">Criar Questão</button>
+                        </div>
+                    </section>
+                </div>
+
+            </section>
+
+        </div>
+    </main>
+    <script src="js/main.js"></script>
+    <script src="js/config.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        setInterval(attTime, 30000);
+
+        const formatarData  = (data) => {
+            const ano = data.getFullYear();
+            const mes = (`00${data.getMonth() + 1}`).slice(-2);
+            const dia = (`00${data.getDate()}`).slice(-2);
+
+            return `${dia}/${mes}/${ano} |`;
+        };
+        const formatarHorario  = (data) => {
+            const horas = (`00${data.getHours()}`).slice(-2);
+            const minutos = (`00${data.getMinutes()}`).slice(-2);
+            return `${horas}:${minutos}`;
+        }
+
+        document.getElementById("data").innerHTML = formatarData(new Date());
+        document.getElementById("horas").innerHTML = formatarHorario(new Date());
+
+        function attTime() {
+            document.getElementById("data").innerHTML = formatarData(new Date());
+            document.getElementById("horas").innerHTML = formatarHorario(new Date());
+        }
+        AOS.init();
+    </script>
+</body>
+</html>
