@@ -1,19 +1,19 @@
 {
-    "mainGuild": "678775234027061278",
+    "mainGuild": "",
     "db": {
         "host": "localhost",
-        "name": "pixel-rp",
+        "name": "",
         "user": "root",
         "pass": "",
         "dialect": "mysql"
     },
     "rolesCfg":{
-        "roleOwner": "678775461232246784",
-        "roleAprovador": "836611761963663410"
+        "roleOwner": "",
+        "roleAprovador": ""
     },
     "status":{
-        "ip": "191.96.79.143",
-        "porta": "30120"
+        "ip": "",
+        "porta": ""
     }
 }
 
